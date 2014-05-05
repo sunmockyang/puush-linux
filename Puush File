@@ -5,14 +5,19 @@ function getHash () { echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 
 # 2: delete after use (Not required. Default: false)
 function puushFile ()
 {
-	echo $1
+	url=`puush "$1"`
 
 	if [ "$2" = true ] ; then
 	    rm $1
 	fi
+
+	echo $url
 }
 
 fileName=""
+fileURL=""
+
+fileTitle="screenshot"
 
 #Get file to puush and puush it
 while test $# -gt 0; do
@@ -20,25 +25,26 @@ while test $# -gt 0; do
 		-a)
 			echo "Whole Desktop"
 				fileName=".tmp_Puush_$(getHash).png"
-				#gnome-screenshot -f $fileName
-				puushFile $fileName true
+				# gnome-screenshot -f $fileName
+				fileURL=`puushFile "$fileName" true`
 			;;
 		-b)
 			echo "Area"
 				fileName=".tmp_Puush_$(getHash).png"
-				#gnome-screenshot -f $fileName
-				puushFile $fileName true
+				# gnome-screenshot -f $fileName
+				fileURL=`puushFile "$fileName" true`
 			;;
 		-c)
 			echo "Window"
 				fileName=".tmp_Puush_$(getHash).png"
-				#gnome-screenshot -f $fileName
-				puushFile $fileName true
+				# gnome-screenshot -f $fileName
+				fileURL=`puushFile "$fileName" true`
 			;;
 		-d)
 			echo "File Upload"
-				fileName=zenity --file-selection
-				puushFile $fileName false
+				fileName=`zenity --file-selection`
+				fileTitle=`basename $fileName`
+				fileURL=`puushFile "$fileName" false`
 			;;
 	esac
 
@@ -46,5 +52,7 @@ while test $# -gt 0; do
 done
 
 #Copy link to clipboard
+echo $fileURL | xclip
+notify-send -t 2000 "Puush $fileTitle" "$fileURL"
 
 #rm $fileName
