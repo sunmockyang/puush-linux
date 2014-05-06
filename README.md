@@ -5,9 +5,10 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
 <br>Utilises __gnome-screenshot__ for taking screenshots, __zenity__ for file uploads (both included in Ubuntu).
 
 ## Instructions
-- In "puush" add your puush API key to PUUSH_API_KEY
+- Clone or download the repo
+- In file "puush" add your puush API key to PUUSH_API_KEY
   - (You can find your API key at http://puush.me/account/settings)
-- Place this file wherever you want (/usr/local/bin)
+- Place this file wherever you want (recommended: /usr/local/bin)
 - Set up keyboard shortcuts within linux
   - (in Ubuntu it's system settings > keyboard > keyboard shortcuts > custom shortcuts)
   - Log out for the changes to take place
