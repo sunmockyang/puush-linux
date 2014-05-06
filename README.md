@@ -18,6 +18,8 @@ puush -a		# puush desktop
 puush -b		# area puush
 puush -c		# puush window
 puush -d		# file upload
+
+puush -h  	  # help
 ```
 
 ## Dependencies
