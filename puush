@@ -10,6 +10,7 @@ PUUSH_API_KEY=""
 # Dependencies:
 # - gnome-screenshot
 # - curl
+# - zenity
 # - xclip
 # - notify-send
 #
@@ -33,13 +34,13 @@ PUUSH_API_KEY=""
 # - puush curl upload code borrowed from online sources
 
 
-function getHash () { echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1); }
+function getHash () { echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 6 | head -n 1); }
 
 # 1: fileName (Required)
 # 2: delete after use (Not required. Default: false)
 function puushFile ()
 {
-	if [[ -z "$1" ]]; then
+	if [[ -z $1 ]]; then
 		return
 	fi
 
@@ -93,21 +94,21 @@ fi
 case "$1" in
 	-a)
 		echo "Whole Desktop"
-			fileName=".tmp_Puush_$(getHash).png"
+			fileName=".puush_$(getHash).png"
 			gnome-screenshot -f $fileName
 			fileURL=`puushFile "$fileName" true`
 		;;
 
 	-b)
 		echo "Area"
-			fileName=".tmp_Puush_$(getHash).png"
+			fileName=".puush_$(getHash).png"
 			gnome-screenshot -a -f $fileName
 			fileURL=`puushFile "$fileName" true`
 		;;
 
 	-c)
 		echo "Window"
-			fileName=".tmp_Puush_$(getHash).png"
+			fileName=".puush_$(getHash).png"
 			gnome-screenshot -w -f $fileName
 			fileURL=`puushFile "$fileName" true`
 		;;
@@ -131,6 +132,8 @@ case "$1" in
 		
 esac
 
-#Copy link to clipboard, show notification
-echo $fileURL | xclip -selection "clipboard"
-notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" -t 2000 "puush complete!" "$fileURL"
+if [ ! -z "$fileURL" ]; then
+	#Copy link to clipboard, show notification
+	echo $fileURL | xclip -selection "clipboard"
+	notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" -t 2000 "puush complete!" "$fileURL"
+fi
