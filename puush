@@ -33,54 +33,47 @@ PUUSH_API_KEY=""
 # - Link(s) will be copied into clipboard and appear in notifications
 # - puush curl upload code borrowed from online sources
 
-# Usage: uploadPuush [fileName]
-function uploadPuush ()
-{
-	url=`curl "https://puush.me/api/up" -# -F "k=$PUUSH_API_KEY" -F "z=waifu" -F "f=@$1" | sed -E 's/^.+,(.+),.+,.+$/\1\n/'`
-	echo $url
-}
-
 # Usage: puushFile [fileName]
 function puushFile ()
 {
-	if [ -z $1 ]; then
+	if [ -z "$1" ]; then
 		echo "No file specified"
 		exit 1
-	elif [ ! -f $1 ]; then
+	elif [ ! -f "$1" ]; then
 		echo "Puush cancelled"
 		exit 1
 	fi
 
-	fileURL=`uploadPuush $1`
+	fileURL=`curl "https://puush.me/api/up" -# -F "k=$PUUSH_API_KEY" -F "z=waifu" -F "f=@$1" | sed -E 's/^.+,(.+),.+,.+$/\1\n/'`
 
 	if [ ! -z "$fileURL" ]; then
 		#Copy link to clipboard, show notification
-		echo $fileURL | xclip -selection "clipboard"
+		printf $fileURL | xclip -selection "clipboard"
 		notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" -t 2000 "puush complete!" "$fileURL"
 	fi
 }
 
 function helpText ()
 {
-  printf "puush for linux\n"
+  printf "_____________ puush for linux _____________\n"
   printf "Created by Sunmock Yang using the puush api\n"
   printf "\n"
   printf "Usage:\n"
   printf "  puush [OPTIONS] [PATH]\n"
   printf "\n"
   printf "OPTIONS:\n"
-  printf "  -a			puush entire desktop\n"
-  printf "  -b			select area to puush\n"
-  printf "  -c			puush current window\n"
-  printf "  -d			puush specific file (opens file dialog)\n"
+  printf "  -a                 puush entire desktop\n"
+  printf "  -b                 select area to puush\n"
+  printf "  -c                 puush current window\n"
+  printf "  -d                 puush specific file (opens file dialog)\n"
   printf "\n"
-  printf "  --help,-h		show this page\n"
+  printf "  --help,-h          show this page\n"
   printf "\n"
   printf "PATH:\n"
-  printf "  PATH			optional: path of file to puush\n"
+  printf "  PATH               optional: path of file to puush\n"
 }
 
-function getHash () { echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 6 | head -n 1); }
+function generateFileName () { echo "/tmp/puush-linux ($(date +"%Y-%m-%d at %I.%M.%S")).png"; }
 
 
 if [ -z "$PUUSH_API_KEY" ]; then
@@ -92,37 +85,33 @@ if [ -z "$PUUSH_API_KEY" ]; then
   exit 1
 
 elif [ -z "$1" ]; then
+	echo "No file entered."
 	helpText
   exit 1
 
 fi
 
-fileName=""
-
 #Get file to puush and puush it
 case "$1" in
 	-a)
 		echo "Whole Desktop"
-			fileName=".puush_$(getHash).png"
-			gnome-screenshot -f $fileName
+			fileName=$(generateFileName)
+			gnome-screenshot -f "$fileName"
 			puushFile "$fileName"
-			rm $fileName
 		;;
 
 	-b)
 		echo "Area"
-			fileName=".puush_$(getHash).png"
-			gnome-screenshot -a -f $fileName
+			fileName=$(generateFileName)
+			gnome-screenshot -a -f "$fileName"
 			puushFile "$fileName"
-			rm $fileName
 		;;
 
 	-c)
 		echo "Window"
-			fileName=".puush_$(getHash).png"
-			gnome-screenshot -w -f $fileName
+			fileName=$(generateFileName)
+			gnome-screenshot -w -f "$fileName"
 			puushFile "$fileName"
-			rm $fileName
 		;;
 
 	-d)
@@ -133,13 +122,12 @@ case "$1" in
 
 	-h|--help)
 		helpText
-		exit 1
+		exit 0
 		;;
 		
 	*)
 		echo "Upload $1"
-			fileName=$1
-			puushFile "$fileName"
+			puushFile "$1"
 		;;
 		
 esac
