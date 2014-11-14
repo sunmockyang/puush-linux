@@ -13,6 +13,7 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
 - Set up keyboard shortcuts within linux
   - (in Ubuntu it's system settings > keyboard > keyboard shortcuts > custom shortcuts)
   - Log out for the changes to take place
+  - Here's what it looks like for mine: ![Puush keyboard setup](http://puu.sh/cOyVz/8dcb1cd498.png)
 
 ### Commands
 ``` bash
