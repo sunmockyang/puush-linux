@@ -1,6 +1,4 @@
 #!/bin/bash
-# Set API Key here
-PUUSH_API_KEY=""
 
 # Puush for Ubuntu/linux
 # Owner : Sunmock Yang
@@ -23,10 +21,10 @@ PUUSH_API_KEY=""
 #
 # 		command			description		(recommended keyboard shortcut)
 #		---------------------------------------------------------------
-#		puush -c		puush window	(Ctrl + Shift + 2/@)
-#		puush -a		puush desktop	(Ctrl + Shift + 3/#)
-#		puush -b		area puush		(Ctrl + Shift + 4/$)
-#		puush -d		file upload		(Ctrl + Shift + U)
+#		puush -w		puush window	(Ctrl + Shift + 2/@)
+#		puush -d		puush desktop	(Ctrl + Shift + 3/#)
+#		puush -a		area puush		(Ctrl + Shift + 4/$)
+#		puush -u		file upload		(Ctrl + Shift + U)
 #
 #
 # Notes:
@@ -93,28 +91,28 @@ fi
 
 #Get file to puush and puush it
 case "$1" in
-	-a)
+	-d)
 		echo "Whole Desktop"
 			fileName=$(generateFileName)
 			gnome-screenshot -f "$fileName"
 			puushFile "$fileName"
 		;;
 
-	-b)
+	-a)
 		echo "Area"
 			fileName=$(generateFileName)
 			gnome-screenshot -a -f "$fileName"
 			puushFile "$fileName"
 		;;
 
-	-c)
+	-w)
 		echo "Window"
 			fileName=$(generateFileName)
 			gnome-screenshot -w -f "$fileName"
 			puushFile "$fileName"
 		;;
 
-	-d)
+	-u)
 		echo "File Upload"
 			fileName=`zenity --file-selection`
 			puushFile "$fileName"
