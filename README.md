@@ -8,7 +8,7 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
 - Clone or download the repo
 - Go to ~/.profile and put on a new line:
 ```
-PUUSH_API_KEY=your_api_key
+export PUUSH_API_KEY=your_api_key
 ```
   - where "your_api_key" is your puush api key (You can find your API key at http://puush.me/account/settings)
 - Make it executable using __chmod +x puush__
