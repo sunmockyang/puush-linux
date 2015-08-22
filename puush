@@ -1,6 +1,4 @@
 #!/bin/bash
-# Set API Key here
-PUUSH_API_KEY=""
 
 # Puush for Ubuntu/linux
 # Owner : Sunmock Yang
@@ -17,7 +15,9 @@ PUUSH_API_KEY=""
 # Licence : Beerware
 #
 # Instructions:
-# - Add your puush API key to PUUSH_API_KEY (You can find your API key at http://puush.me/account/settings)
+# - Go to ~/.profile and put on a new line:
+#   export PUUSH_API_KEY=your_api_key
+# - where "your_api_key" is your puush api key (You can find your API key at http://puush.me/account/settings)
 # - Place this file wherever you want (/usr/local/bin)
 # - Set up keyboard shortcuts within linux (in Ubuntu it's system settings > keyboard > keyboard shortcuts > custom shortcuts)
 #
@@ -77,10 +77,10 @@ function generateFileName () { echo "/tmp/puush-linux ($(date +"%Y-%m-%d at %I.%
 
 
 if [ -z "$PUUSH_API_KEY" ]; then
-  echo "Set the variable PUUSH_API_KEY in $0"
+  echo "Set the environment variable PUUSH_API_KEY"
   echo "You can find your API key at http://puush.me/account/settings"
 
-  notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" "Set the variable PUUSH_API_KEY in $0" "You can find your API key at http://puush.me/account/settings"
+  notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" "Set the environment variable PUUSH_API_KEY" "You can find your API key at http://puush.me/account/settings"
 
   exit 1
 
