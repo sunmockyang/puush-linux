@@ -6,8 +6,11 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
 
 ## Instructions
 - Clone or download the repo
-- In file "puush" add your puush API key to PUUSH_API_KEY
-  - (You can find your API key at http://puush.me/account/settings)
+- Go to ~/.profile and put on a new line:
+```
+export PUUSH_API_KEY=your_api_key
+```
+  - where "your_api_key" is your puush api key (You can find your API key at http://puush.me/account/settings)
 - Make it executable using __chmod +x puush__
 - Place this file wherever you want (recommended: /usr/local/bin)
 - Set up keyboard shortcuts within linux
@@ -15,12 +18,11 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
   - Log out for the changes to take place
   - Here's what it looks like for mine: ![Puush keyboard setup](http://puu.sh/cOyVz/8dcb1cd498.png)
 
-### Commands
 ``` bash
-puush -a		# puush desktop
-puush -b		# area puush
-puush -c		# puush window
-puush -d		# file upload
+puush -d		# puush desktop
+puush -a		# area puush
+puush -w		# puush window
+puush -f		# file upload
 
 puush -h  	  # help
 ```
