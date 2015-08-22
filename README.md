@@ -17,10 +17,10 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
 
 ### Commands
 ``` bash
-puush -a		# puush desktop
-puush -b		# area puush
-puush -c		# puush window
-puush -d		# file upload
+puush -d		# puush desktop
+puush -a		# area puush
+puush -w		# puush window
+puush -f		# file upload
 
 puush -h  	  # help
 ```
