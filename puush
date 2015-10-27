@@ -1,6 +1,9 @@
 #!/bin/bash
-# Set API Key here
+
 PUUSH_API_KEY=""
+if [ -f $HOME/.puush ]; then
+    source $HOME/.puush
+fi
 
 # Puush for Ubuntu/linux
 # Owner : Sunmock Yang
@@ -49,7 +52,7 @@ function puushFile ()
 	if [ ! -z "$fileURL" ]; then
 		#Copy link to clipboard, show notification
 		printf $fileURL | xclip -selection "clipboard"
-		notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" -t 2000 "puush complete!" "$fileURL"
+		notify-send -i "$( cd "$( dirname "$0" )" && pwd )/puush.png" -t 2000 "puush complete!" "$fileURL"
 	fi
 }
 
@@ -77,10 +80,10 @@ function generateFileName () { echo "/tmp/puush-linux ($(date +"%Y-%m-%d at %I.%
 
 
 if [ -z "$PUUSH_API_KEY" ]; then
-  echo "Set the variable PUUSH_API_KEY in $0"
-  echo "You can find your API key at http://puush.me/account/settings"
+  echo "Set the variable PUUSH_API_KEY in \$HOME/.puush" >/dev/stderr
+  echo "You can find your API key at http://puush.me/account/settings" >/dev/stderr
 
-  notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" "Set the variable PUUSH_API_KEY in $0" "You can find your API key at http://puush.me/account/settings"
+  notify-send -i "$( cd "$( dirname "$0" )" && pwd )/puush.png" "Set the variable PUUSH_API_KEY in \$HOME/.puush" "You can find your API key at http://puush.me/account/settings"
 
   exit 1
 
