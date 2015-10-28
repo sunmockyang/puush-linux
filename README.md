@@ -19,12 +19,12 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
 
 ### Commands
 ``` bash
-puush -a		# puush desktop
-puush -b		# area puush
-puush -c		# puush window
-puush -d		# file upload
+puush.sh -a		# puush desktop
+puush.sh -b		# area puush
+puush.sh -c		# puush window
+puush.sh -d		# file upload
 
-puush -h  	  # help
+puush.sh -h  	  # help
 ```
 
 ## Dependencies
