@@ -1,5 +1,6 @@
 #!/bin/bash
-# Set API Key here
+
+PUUSH_CONFIG_FILE="$HOME/.puush"
 PUUSH_API_KEY=""
 
 # Puush for Ubuntu/linux
@@ -17,7 +18,8 @@ PUUSH_API_KEY=""
 # Licence : Beerware
 #
 # Instructions:
-# - Add your puush API key to PUUSH_API_KEY (You can find your API key at http://puush.me/account/settings)
+# - Configure your puush API key by adding PUUSH_API_KEY to the $HOME/.puush file
+#   - You can find your API key at http://puush.me/account/settings
 # - Place this file wherever you want (/usr/local/bin)
 # - Set up keyboard shortcuts within linux (in Ubuntu it's system settings > keyboard > keyboard shortcuts > custom shortcuts)
 #
@@ -32,6 +34,14 @@ PUUSH_API_KEY=""
 # Notes:
 # - Link(s) will be copied into clipboard and appear in notifications
 # - puush curl upload code borrowed from online sources
+
+function createDefaultConfigFile()
+{
+    echo "# Configure your puush API key here" >> $PUUSH_CONFIG_FILE
+    echo "# - You can find your API key at http://puush.me/account/settings" >> $PUUSH_CONFIG_FILE
+    echo "PUUSH_API_KEY=\"\"" >> $PUUSH_CONFIG_FILE
+    echo >> $PUUSH_CONFIG_FILE
+}
 
 # Usage: puushFile [fileName]
 function puushFile ()
@@ -49,7 +59,7 @@ function puushFile ()
 	if [ ! -z "$fileURL" ]; then
 		#Copy link to clipboard, show notification
 		printf $fileURL | xclip -selection "clipboard"
-		notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" -t 2000 "puush complete!" "$fileURL"
+		notify-send -i "$( cd "$( dirname "$0" )" && pwd )/puush.png" -t 2000 "puush complete!" "$fileURL"
 	fi
 }
 
@@ -75,12 +85,18 @@ function helpText ()
 
 function generateFileName () { echo "/tmp/puush-linux ($(date +"%Y-%m-%d at %I.%M.%S")).png"; }
 
+if [ -f $PUUSH_CONFIG_FILE ]; then
+  source $PUUSH_CONFIG_FILE
+else
+  echo "Creating default config file in $PUUSH_CONFIG_FILE"
+  createDefaultConfigFile
+fi
 
 if [ -z "$PUUSH_API_KEY" ]; then
-  echo "Set the variable PUUSH_API_KEY in $0"
-  echo "You can find your API key at http://puush.me/account/settings"
+  echo "Set the variable PUUSH_API_KEY in $PUUSH_CONFIG_FILE" >/dev/stderr
+  echo "You can find your API key at http://puush.me/account/settings" >/dev/stderr
 
-  notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" "Set the variable PUUSH_API_KEY in $0" "You can find your API key at http://puush.me/account/settings"
+  notify-send -i "$( cd "$( dirname "$0" )" && pwd )/puush.png" "Set the variable PUUSH_API_KEY in $PUUSH_CONFIG_FILE" "You can find your API key at http://puush.me/account/settings"
 
   exit 1
 
