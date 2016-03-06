@@ -27,6 +27,7 @@ PUUSH_API_KEY=""
 #		puush -a		puush desktop	(Ctrl + Shift + 3/#)
 #		puush -b		area puush		(Ctrl + Shift + 4/$)
 #		puush -d		file upload		(Ctrl + Shift + U)
+#		puush -e		puush clipboard	(Ctrl + Shift + 1/!)
 #
 #
 # Notes:
@@ -117,6 +118,13 @@ case "$1" in
 	-d)
 		echo "File Upload"
 			fileName=`zenity --file-selection`
+			puushFile "$fileName"
+		;;
+
+	-e)
+		echo "Clipboard Upload"
+			fileName="/tmp/puush-linux-clip"
+			xclip -selection "clipboard" -o > "$fileName"
 			puushFile "$fileName"
 		;;
 
