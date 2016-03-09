@@ -124,8 +124,22 @@ case "$1" in
 
 	-e)
 		echo "Clipboard Upload"
+			targets=`xclip -selection clipboard -t TARGETS -o`
 			fileName="/tmp/puush-linux-clip"
-			xclip -selection "clipboard" -o > "$fileName"
+
+			for target in $targets
+			do
+				if [[ "$target" =~ "/" ]]; then
+					xclip -selection "clipboard" -t "$target" -o > "$fileName"
+					puushFile "$fileName"
+					exit $?
+				fi
+			done
+
+			# we're here because clipboard content's MIME-type is not really known. Does it even have a type?
+			# well, let's hope for the best and push it as plaintext
+
+			xclip -selection "clipboard" -t "text/plain" -o > "$fileName"
 			puushFile "$fileName"
 		;;
 
