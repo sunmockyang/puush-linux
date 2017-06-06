@@ -27,6 +27,7 @@ PUUSH_API_KEY=""
 #		puush -a		puush desktop	(Ctrl + Shift + 3/#)
 #		puush -b		area puush		(Ctrl + Shift + 4/$)
 #		puush -d		file upload		(Ctrl + Shift + U)
+#		puush -e		puush clipboard	(Ctrl + Shift + 1/!)
 #
 #
 # Notes:
@@ -66,6 +67,7 @@ function helpText ()
   printf "  -b                 select area to puush\n"
   printf "  -c                 puush current window\n"
   printf "  -d                 puush specific file (opens file dialog)\n"
+  printf "  -e                 puush clipboard contents\n"
   printf "\n"
   printf "  --help,-h          show this page\n"
   printf "\n"
@@ -117,6 +119,27 @@ case "$1" in
 	-d)
 		echo "File Upload"
 			fileName=`zenity --file-selection`
+			puushFile "$fileName"
+		;;
+
+	-e)
+		echo "Clipboard Upload"
+			targets=`xclip -selection clipboard -t TARGETS -o`
+			fileName="/tmp/puush-linux-clip"
+
+			for target in $targets
+			do
+				if [[ "$target" =~ "/" ]]; then
+					xclip -selection "clipboard" -t "$target" -o > "$fileName"
+					puushFile "$fileName"
+					exit $?
+				fi
+			done
+
+			# we're here because clipboard content's MIME-type is not really known. Does it even have a type?
+			# well, let's hope for the best and push it as plaintext
+
+			xclip -selection "clipboard" -t "text/plain" -o > "$fileName"
 			puushFile "$fileName"
 		;;
 
