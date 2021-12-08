@@ -14,7 +14,7 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
   - (in Ubuntu it's system settings > keyboard > keyboard shortcuts > custom shortcuts)
   - Log out for the changes to take place
   - Here's what it looks like for mine: ![Puush keyboard setup](http://puu.sh/cOyVz/8dcb1cd498.png)
-- If your linux install include Nemo File Manager (Such as Linux Mint), put puushFile.nemo_action in home/.local/share/nemo/actions
+- If your linux install includes Nemo File Manager (Such as Linux Mint), put puushFile.nemo_action in home/.local/share/nemo/actions
 
 ### Commands
 ``` bash
