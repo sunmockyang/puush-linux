@@ -1,0 +1,10 @@
+[Nemo Action]
+Active=true
+Name=Puush File
+Comment=Puush This File
+Exec=/usr/local/bin/puush/puush -d %F
+Icon-Name=image
+Selection=s
+Extensions=jpg;png;bmp;gif
+Terminal=false
+Quote=double
